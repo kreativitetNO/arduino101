@@ -1,14 +1,11 @@
-const int blueLedPin = 13;
-const int yellowButtonPin = 2;
+const int LED_PIN = 10;
+const int BUTTON_PIN = 5;
 
 void setup() {
-  pinMode(blueLedPin, OUTPUT);
-  pinMode(yellowButtonPin, INPUT);
+  pinMode(LED_PIN, OUTPUT);
+  pinMode(BUTTON_PIN, INPUT);
 }
 
-// Det er strengt talt ikke nødvendig å lagre det som leses
-// siden det ikke brukes flere steder
-
 void loop() {
-  digitalWrite(blueLedPin, digitalRead(yellowButtonPin));
+  digitalWrite(LED_PIN, digitalRead(BUTTON_PIN));
 }

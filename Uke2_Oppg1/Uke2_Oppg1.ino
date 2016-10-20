@@ -1,14 +1,14 @@
-const int blueLedPin = 13;
-const int yellowButtonPin = 2;
+const int LED_PIN = 10;
+const int BUTTON_PIN = 5;
 
-int yellowButtonValue = LOW;
+int buttonValue = LOW;
 
 void setup() {
-  pinMode(blueLedPin, OUTPUT);
-  pinMode(yellowButtonPin, INPUT);
+  pinMode(LED_PIN, OUTPUT);
+  pinMode(BUTTON_PIN, INPUT);
 }
 
 void loop() {
-  yellowButtonValue = digitalRead(yellowButtonPin);
-  digitalWrite(blueLedPin, yellowButtonValue);
+  buttonValue = digitalRead(BUTTON_PIN);
+  digitalWrite(LED_PIN, buttonValue);
 }

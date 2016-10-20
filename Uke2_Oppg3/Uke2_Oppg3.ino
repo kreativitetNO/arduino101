@@ -1,31 +1,32 @@
-const int yellowButtonPin = 2;
-const int greenButtonPin = 3;
-const int redButtonPin = 3;
-const int blueLedPin = 13;
-const int forsinkelsesFaktor = 250;
+const int YELLOW_BUTTON_PIN = 3;
+const int GREEN_BUTTON_PIN = 4;
+const int RED_BUTTON_PIN = 5;
+const int LED_PIN = 10;
+const int BLINK_DELAY = 250;
 
 int buttonSum = 0;
 int blueLedValue = 0;
 
 void setup() {
-  pinMode(yellowButtonPin, INPUT);
-  pinMode(greenButtonPin, INPUT);
-  pinMode(redButtonPin, INPUT);
-  pinMode(blueLedPin, OUTPUT);
+  pinMode(YELLOW_BUTTON_PIN, INPUT);
+  pinMode(GREEN_BUTTON_PIN, INPUT);
+  pinMode(RED_BUTTON_PIN, INPUT);
+  pinMode(LED_PIN, OUTPUT);
 }
 
 void loop() {
-  buttonSum = digitalRead(yellowButtonPin)
-    + digitalRead(greenButtonPin);
+  buttonSum = digitalRead(YELLOW_BUTTON_PIN)
+    + digitalRead(GREEN_BUTTON_PIN)
+    + digitalRead(RED_BUTTON_PIN);
   if (buttonSum == 1) {
-    digitalWrite(blueLedPin, HIGH);
+    digitalWrite(LED_PIN, HIGH);
   }
   else if (buttonSum > 1) {
-    digitalWrite(blueLedPin, HIGH);
-    delay((4 - buttonSum) * forsinkelsesFaktor);
-    digitalWrite(blueLedPin, LOW);
-    delay((4 - buttonSum) * forsinkelsesFaktor);
+    digitalWrite(LED_PIN, HIGH);
+    delay((4 - buttonSum) * BLINK_DELAY);
+    digitalWrite(LED_PIN, LOW);
+    delay((4 - buttonSum) * BLINK_DELAY);
   }
   else
-    digitalWrite(blueLedPin, LOW);
+    digitalWrite(LED_PIN, LOW);
 }

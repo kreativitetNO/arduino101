@@ -1,15 +1,18 @@
-const int potPin = A0;
-const int blueLedPin = 13;
-const unsigned int midtPunkt = 512;
+const int POT_PIN = A0;
+const int LED_PIN = 13;
+const int MIDPOINT = 512;
+const int MIN_BLINK_DELAY = 50;
+
+int blinkDelay = 0;
 
 void setup() {
-  pinMode(blueLedPin, OUTPUT);
+  pinMode(LED_PIN, OUTPUT);
 }
 
 void loop() {
-  int del = abs(midtPunkt - analogRead(potPin));
-  digitalWrite(blueLedPin, HIGH);
-  delay(del);
-  digitalWrite(blueLedPin, LOW);
-  delay(del);
+  blinkDelay = abs(MIDPOINT - analogRead(POT_PIN)) + MIN_BLINK_DELAY;
+  digitalWrite(LED_PIN, HIGH);
+  delay(blinkDelay);
+  digitalWrite(LED_PIN, LOW);
+  delay(blinkDelay);
 }
