@@ -1,6 +1,6 @@
-const unsigned int innlesningsForsinkelse = 5;
+const int INPUT_DELAY = 5;
 
-void finnE(String);
+void findE(String);
 
 void setup() {
   Serial.begin(9600);
@@ -8,21 +8,21 @@ void setup() {
 
 void loop() {
   while (!Serial.available());
-  String tekst;
+  String text;
   while (Serial.available()) {
-      tekst += char(Serial.read());
-      delay(innlesningsForsinkelse);
+      text += char(Serial.read());
+      delay(INPUT_DELAY);
   }
-  finnE(tekst);
+  findE(text);
 }
 
-void finnE(String tekst) {
-  int plass = tekst.indexOf('e');
-  if (plass < 0) {
-    Serial.println("Det fins ingen e");    
+void findE(String text) {
+  int index = text.indexOf('e');
+  if (index < 0) {
+    Serial.println("There is no 'e'");    
   }
   else {
-    Serial.print("Den foerste e er paa plass ");
-    Serial.println(plass + 1); // smaksak om du legger til 1 eller ikke - hvorfor?
+    Serial.print("The first 'e' is at index ");
+    Serial.println(index + 1);
   }
 }

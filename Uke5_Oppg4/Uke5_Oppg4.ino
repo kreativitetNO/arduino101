@@ -1,26 +1,24 @@
-const unsigned int innlesningsForsinkelse = 5;
-const char letterToReplace = 'e';
+const int INPUT_DELAY = 5;
+const char LETTER_TO_REPLACE = 'e';
+const char LETTER_TO_INSERT = 'i';
 
-void erstattE(String);
+void replaceE(String);
 
 void setup() {
-  pinMode(11, INPUT);
-  digitalWrite(11, HIGH);
-  digitalWrite(11, LOW);
   Serial.begin(9600);
 }
 
 void loop() {
   while (!Serial.available());
-  String tekst;
+  String text;
   while (Serial.available()) {
-      tekst += char(Serial.read());
-      delay(innlesningsForsinkelse);
+      text += char(Serial.read());
+      delay(INPUT_DELAY);
   }
-  erstattE(tekst);
+  replaceE(text);
 }
 
-void erstattE(String tekst) {
-  tekst.replace("e", "i");
-  Serial.println(tekst);
+void replaceE(String text) {
+  text.replace(LETTER_TO_REPLACE, LETTER_TO_INSERT);
+  Serial.println(text);
 }

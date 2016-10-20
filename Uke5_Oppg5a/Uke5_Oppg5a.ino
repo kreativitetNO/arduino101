@@ -1,50 +1,48 @@
-const unsigned int innlesningsForsinkelse = 10;
+const int INPUT_DELAY = 10;
+
+String getText();
+void removeParentheses(String);
 
 void setup() {
   Serial.begin(9600);
 }
 
-String lesTekst() {
-  String resultat;
-  while (Serial.available()) {
-    resultat += (char)Serial.read();
-    delay(innlesningsForsinkelse);
-  }
-  return resultat;
+void loop() {
+  String text = getText();
+  removeParentheses(text);
 }
 
-// :) (Dette er en kolon :)
+String getText() {
+  String result;
+  while (!Serial.available());
+  while (Serial.available()) {
+    result += (char)Serial.read();
+    delay(INPUT_DELAY);
+  }
+  return result;
+}
 
-String fjernParanteser(String tekst) {
-  int dybde = 0;
-  while (tekst.indexOf('(') > -1) {
+void removeParentheses(String text) {
+  int depth = 0;
+  while (text.indexOf('(') > -1) {
     int startPos = 0;
-    int sluttPos = 0;
+    int endPos = 0;
     int i = 0;
-    while (i < tekst.length() && sluttPos == 0) {
-      if (tekst.charAt(i) == '(') {
-        if (dybde == 0)
+    while (i < text.length() && endPos == 0) {
+      if (text.charAt(i) == '(') {
+        if (depth == 0)
           startPos = i;
-        dybde++;
+        depth++;
       }
-      if (tekst.charAt(i) == ')') {
-        dybde--;
-        if (dybde == 0)
-          sluttPos = i;
+      if (text.charAt(i) == ')') {
+        depth--;
+        if (depth == 0)
+          endPos = i;
       }
       ++i;
     }
-    tekst.remove(startPos, sluttPos - startPos + 1);
+    text.remove(startPos, endPos - startPos + 1);
   }
-  return tekst;
+  Serial.println(text);
 }
 
-String sistTekst;
-
-void loop() {
-  String tekst = lesTekst();
-  if (tekst != sistTekst) {
-    Serial.println(fjernParanteser(tekst));
-  }
-  sistTekst = tekst;
-}

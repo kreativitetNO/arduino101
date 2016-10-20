@@ -1,4 +1,4 @@
-const unsigned int innlesningsForsinkelse = 5;
+const int INPUT_DELAY = 5;
 
 void shout(String);
 
@@ -8,15 +8,15 @@ void setup() {
 
 void loop() {
   while (!Serial.available());
-  String tekst;
+  String text;
   while (Serial.available()) {
-      tekst += char(Serial.read());
-      delay(innlesningsForsinkelse);
+      text += char(Serial.read());
+      delay(INPUT_DELAY);
   }
-  shout(tekst);
+  shout(text);
 }
 
-void shout(String tekst) {
-  tekst.toUpperCase();
-  Serial.println(tekst);
+void shout(String text) {
+  text.toUpperCase();
+  Serial.println(text);
 }
