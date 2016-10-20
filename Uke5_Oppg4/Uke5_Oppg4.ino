@@ -4,6 +4,9 @@ const char letterToReplace = 'e';
 void erstattE(String);
 
 void setup() {
+  pinMode(11, INPUT);
+  digitalWrite(11, HIGH);
+  digitalWrite(11, LOW);
   Serial.begin(9600);
 }
 
