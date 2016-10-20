@@ -1,10 +1,10 @@
-const int blueLedPin = 13;
+const int LED_PIN = 13;
 
 int blueLedValue = HIGH;
 int blinkDelay = 0;
 
 void setup() {
-  pinMode(blueLedPin, OUTPUT);
+  pinMode(LED_PIN, OUTPUT);
   Serial.begin(9600);
 }
 
@@ -12,7 +12,7 @@ void loop() {
   while (Serial.available()) {
     blinkDelay = Serial.parseInt();
   }
-  digitalWrite(blueLedPin, blueLedValue);
+  digitalWrite(LED_PIN, blueLedValue);
   delay(blinkDelay);
   blueLedValue = !blueLedValue;
   Serial.println(blinkDelay);  

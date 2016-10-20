@@ -1,19 +1,19 @@
-const unsigned int antallStjerner = 7;
+const unsigned int STAR_COUNT = 7;
 
-void skrivStjerner(unsigned int);
+void writeStars(int);
 
 void setup() {
   Serial.begin(9600);
 }
 
 void loop() {
-  skrivStjerner(antallStjerner);
+  writeStars(STAR_COUNT);
   while (!Serial.available());
   Serial.read();
 }
 
-void skrivStjerner(unsigned int antall) {
-  for (int i = 0; i < antall; ++i)
+void writeStars(int count) {
+  for (int i = 0; i < count; ++i)
     Serial.print('*');
   Serial.println();
 }

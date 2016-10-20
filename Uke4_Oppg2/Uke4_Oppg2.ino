@@ -1,13 +1,13 @@
-const int blueLedPin = 13;
-const int buzzerPin = 12;
-const int blinkCode = 1;
-const int buzzCode = 2;
+const int LED_PIN = 13;
+const int BUZZER_PIN = 12;
+const int BLINK_CODE = 1;
+const int BUZZ_CODE = 2;
 
 int actionCode;
 int value;
 
 void setup() {
-  pinMode(blueLedPin, OUTPUT);
+  pinMode(LED_PIN, OUTPUT);
   Serial.begin(9600);
 }
 
@@ -16,17 +16,17 @@ void loop() {
     actionCode = Serial.parseInt();
     value = Serial.parseInt();
   }
-  if (actionCode == blinkCode) {
-    digitalWrite(blueLedPin, HIGH);
+  if (actionCode == BLINK_CODE) {
+    digitalWrite(LED_PIN, HIGH);
     delay(value);
-    digitalWrite(blueLedPin, LOW);
+    digitalWrite(LED_PIN, LOW);
     delay(value);
   }
-  else if (actionCode == buzzCode) {
-    analogWrite(buzzerPin, value);
+  else if (actionCode == BUZZ_CODE) {
+    analogWrite(BUZZER_PIN, value);
   }
   else {
-    digitalWrite(blueLedPin, LOW);
-    digitalWrite(buzzerPin, LOW);
+    digitalWrite(LED_PIN, LOW);
+    digitalWrite(BUZZER_PIN, LOW);
   }
 }
