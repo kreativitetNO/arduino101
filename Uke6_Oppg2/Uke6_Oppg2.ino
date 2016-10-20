@@ -1,106 +1,105 @@
-const int potPin = A0;
-const unsigned int antallMaalinger = 50;
-const unsigned int maaleIntervall = 250;
+const int POT_PIN = A0;
+const int MEASUREMENT_COUNT = 50;
+const int MEASUREMENT_INTERVAL = 250;
 
-struct MaaleVerdi {
-  unsigned int data;
-  unsigned long tidspunkt;
+struct Measurement {
+  int data;
+  unsigned long time;
 };
 
-MaaleVerdi maaleVerdier[antallMaalinger];
+Measurement measurements[MEASUREMENT_COUNT];
 
-void skrivSum();
-void skrivSnitt();
-void skrivMinMaks();
-void skrivMedian();
+void outputSum();
+void outputAverage();
+void outputMinMax();
+void outputMedian();
 
 void setup() {
   Serial.begin(9600);
 }
 
 void loop() {
-  for (unsigned int i = 0; i < antallMaalinger; ++i) {
-    maaleVerdier[i].tidspunkt = millis();
-    maaleVerdier[i].data = analogRead(potPin);
+  for (int i = 0; i < MEASUREMENT_COUNT; ++i) {
+    measurements[i].time = millis();
+    measurements[i].data = analogRead(POT_PIN);
     Serial.print(i);
     Serial.print(": ");
-    Serial.println(maaleVerdier[i].data);
-    delay(maaleIntervall);
+    Serial.println(measurements[i].data);
+    delay(MEASUREMENT_INTERVAL);
   }
-  skrivSum();
-  skrivSnitt();
-  skrivMinMaks();
-  skrivMedian();
+  outputSum();
+  outputAverage();
+  outputMinMax();
+  outputMedian();
   while (!Serial.available());
   Serial.read();
 }
 
-void skrivSum() {
+void outputSum() {
   unsigned long sum = 0;
-  for (unsigned int i = 0; i < antallMaalinger; ++i) {
-    sum += maaleVerdier[i].data;
+  for (unsigned int i = 0; i < MEASUREMENT_COUNT; ++i) {
+    sum += measurements[i].data;
   }
-  Serial.print("Summen av maalingene er: ");
+  Serial.print("Sum of measurements: ");
   Serial.println(sum);
 }
 
-void skrivSnitt() {
+void outputAverage() {
   unsigned long sum = 0;
-  for (unsigned int i = 0; i < antallMaalinger; ++i) {
-    sum += maaleVerdier[i].data;
+  for (unsigned int i = 0; i < MEASUREMENT_COUNT; ++i) {
+    sum += measurements[i].data;
   }
-  Serial.print("Snittet av maalingene er: ");
-  Serial.println(1.0*sum/antallMaalinger);
+  Serial.print("Average measurement: ");
+  Serial.println(1.0*sum/MEASUREMENT_COUNT);
 }
 
-void skrivMinMaks() {
-  unsigned int minVerdi = 1023;
-  unsigned int maksVerdi = 0;
-  for (unsigned int i = 0; i < antallMaalinger; ++i) {
-    minVerdi = min(maaleVerdier[i].data, minVerdi);
-    maksVerdi = max(maaleVerdier[i].data, maksVerdi);
+void outputMinMax() {
+  unsigned int minValue = 1023;
+  unsigned int maxValue = 0;
+  for (unsigned int i = 0; i < MEASUREMENT_COUNT; ++i) {
+    minValue = min(measurements[i].data, minValue);
+    maxValue = max(measurements[i].data, maxValue);
   }
-  Serial.print("Min verdien er: ");
-  Serial.println(minVerdi);
-  Serial.print("Dette skjedde ved: ");
-  for (unsigned int i = 0; i < antallMaalinger; ++i) {
-    if (maaleVerdier[i].data == minVerdi) {
-      Serial.print(maaleVerdier[i].tidspunkt);
+  Serial.print("Min: ");
+  Serial.println(minValue);
+  Serial.print(" @: ");
+  for (unsigned int i = 0; i < MEASUREMENT_COUNT; ++i) {
+    if (measurements[i].data == minValue) {
+      Serial.print(measurements[i].time);
       Serial.print(" ");
     }
   }
   Serial.println();
-  Serial.print("Maks verdien er: ");
-  Serial.println(maksVerdi);
-  Serial.print("Dette skjedde ved: ");
-  for (unsigned int i = 0; i < antallMaalinger; ++i) {
-    if (maaleVerdier[i].data == maksVerdi) {
-      Serial.print(maaleVerdier[i].tidspunkt);
+  Serial.print("Max: ");
+  Serial.println(maxValue);
+  Serial.print(" @: ");
+  for (unsigned int i = 0; i < MEASUREMENT_COUNT; ++i) {
+    if (measurements[i].data == maxValue) {
+      Serial.print(measurements[i].time);
       Serial.print(" ");
     }
   }
   Serial.println();
 }
 
-void skrivMedian() {
-  // Insertion sort - se Wikipedia
-  for (unsigned int i = 1; i < antallMaalinger; ++i) {
+void outputMedian() {
+  // Insertion sort - see Wikipedia
+  for (unsigned int i = 1; i < MEASUREMENT_COUNT; ++i) {
     unsigned int j = i;
-    while (maaleVerdier[j].data < maaleVerdier[j-1].data && j > 0) {
-      MaaleVerdi temp = maaleVerdier[j];
-      maaleVerdier[j] = maaleVerdier[j-1];
-      maaleVerdier[j-1] = temp;
+    while (measurements[j].data < measurements[j-1].data && j > 0) {
+      Measurement temp = measurements[j];
+      measurements[j] = measurements[j-1];
+      measurements[j-1] = temp;
       j--;
     }
   }
-  // Sortering ferdig
   
-  Serial.print("Median er: ");
-  if (antallMaalinger % 2 == 0) { // partall
-    Serial.println((maaleVerdier[antallMaalinger/2].data+maaleVerdier[antallMaalinger/2-1].data)/2.0);
+  Serial.print("Median: ");
+  if (MEASUREMENT_COUNT % 2 == 0) {
+    Serial.println((measurements[MEASUREMENT_COUNT/2].data+measurements[MEASUREMENT_COUNT/2-1].data)/2.0);
   }
   else {
-    Serial.println(maaleVerdier[antallMaalinger/2].data);
+    Serial.println(measurements[MEASUREMENT_COUNT/2].data);
   }
 }
 
