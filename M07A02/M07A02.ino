@@ -4,12 +4,12 @@ const int primtall[] =
     79, 83, 89, 97, 101, 103, 107, 109, 113,
     127, 131, 137, 139, 149, 151, 157, 163,
     167, 173, 179, 181 };
-const unsigned int maksAntallFaktorer = 20;
+const int maksAntallFaktorer = 20;
 
-void initialiser(int*, unsigned int);
-void hentTall(int&);
-void faktoriser(int, int*, unsigned int);
-void skrivUt(const int&, int*, unsigned int);
+void initialiser(int*, int);
+int hentTall();
+void faktoriser(int, int*, int);
+void skrivUt(int, int*, int);
 
 void setup() {
   Serial.begin(9600);
@@ -17,26 +17,25 @@ void setup() {
 }
 
 void loop() {
-  int tall;
   int faktorer[maksAntallFaktorer];
   initialiser(faktorer, maksAntallFaktorer);
-  hentTall(tall);
+  int tall = hentTall();
   faktoriser(tall, faktorer, maksAntallFaktorer);
   skrivUt(tall, faktorer, maksAntallFaktorer);
 }
 
-void initialiser(int* arr, unsigned int len) {
+void initialiser(int* arr, int len) {
   for (unsigned int i = 0; i < len; ++i) {
     arr[i] = 0;
   }
 }
 
-void hentTall(int& tall) {
+int hentTall() {
   while (!Serial.available());
-  tall = Serial.parseInt();
+  return Serial.parseInt();
 }
 
-void faktoriser(int tall, int* arr, unsigned int len) {
+void faktoriser(int tall, int* arr, int len) {
   int i = 0;
   int j = 0;
   while (i < len - 1 && tall != 1) {
@@ -54,7 +53,7 @@ void faktoriser(int tall, int* arr, unsigned int len) {
   }
 }
 
-void skrivUt(const int& tall, int* arr, unsigned int len) {
+void skrivUt(int tall, int* arr, int len) {
   Serial.print(tall);
   Serial.print("=");
   for (unsigned int i = 0; i < len; ++i) {
